@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 // Function to validate the base
 int	base_validation(char *base)
@@ -119,7 +120,7 @@ int	length_num(int nbr, char *base, int length)
 	return (length);
 }
 
-char	*Buff_fill(int num, char *buffer, char *base, int buff_len)
+char	*Buff_fill(int num, char *base, int buff_len)
 {
 	int		i;
 	int		base_len;
@@ -135,17 +136,17 @@ char	*Buff_fill(int num, char *buffer, char *base, int buff_len)
 	res[buff_len--] = '\0';
 	if (nb < 0)
 	{
-		buffer[0] = '-';
+		res[0] = '-';
 		nb = -nb;
 	}
 	while (nb >= base_len)
 	{
-		buffer[buff_len] = base[nb % base_len];
+		res[buff_len] = base[nb % base_len];
 		nb /= base_len;
 		buff_len--;
 	}
 	if (nb < base_len)
-			buffer[i] = base[nb];
+			res[i] = base[nb];
 	return (res);
 }
 
@@ -159,11 +160,11 @@ char *ft_convert_base(char *nbr, char *base_from, char *base_to)
 		return (NULL);
 	num = ft_atoi_base(nbr, base_from);
 	bufflen = length_num(num, base_to, 0);
-	res = Buff_fill(num, res, base_to, bufflen);
+	res = Buff_fill(num, base_to, bufflen);
 	return (res);
 }
 
-int main(int argc, char const *argv[])
+int main(void)
 {
 	char *result;
 
