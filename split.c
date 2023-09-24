@@ -17,37 +17,6 @@ int ft_is_sperator(char c, char *charset)
 	return (0);
 }
 
-int ft_count_words(char *str, char *charset)
-{
-	int i;
-	int words;
-
-	i = 0;
-	words = 0;
-
-	while (str[i])
-	{
-		if (ft_is_sperator(str[i + 1], charset) == 1 /* Hello, World! == " ,!"*/
-			&& ft_is_sperator(str[i], charset) == 0)
-				words++;
-		i++;
-	}
-	return (words);
-}
-
-void write_in_grid(char *dest, char *src, char *charset)
-{
-	int i;
-
-	i = 0;
-	while (ft_is_sperator(src[i], charset) == 0)  /* Hello, World! == " ,!" */
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-}
-
 int grid_define(char **grid, char *str, char *charset) /* Hello, World! == " ,!" */
 {
 	int i;
@@ -74,6 +43,37 @@ int grid_define(char **grid, char *str, char *charset) /* Hello, World! == " ,!"
 		}
 	}
 	return (0);
+}
+
+void write_in_grid(char *dest, char *src, char *charset)
+{
+	int i;
+
+	i = 0;
+	while (ft_is_sperator(src[i], charset) == 0)  /* Hello, World! == " ,!" */
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+}
+
+int ft_count_words(char *str, char *charset)
+{
+	int i;
+	int words;
+
+	i = 0;
+	words = 0;
+
+	while (str[i])
+	{
+		if (ft_is_sperator(str[i + 1], charset) == 1 /* Hello, World == " ,"*/
+			&& ft_is_sperator(str[i], charset) == 0)
+				words++;
+		i++;
+	}
+	return (words);
 }
 
 char **ft_split(char *str, char *charset)
@@ -138,7 +138,7 @@ int main() {
     printf("\n");
 
     // Test 4: Splitting by multiple characters
-    result = ft_split("a:🅱️:c::d::e", ":");
+    result = ft_split("a:	:c::d::e", ":");
     // Expected output: "a", "b", "c", "d", "e"
     printf("Test 4:\n");
     for (int i = 0; result[i] != 0; i++) {

@@ -101,7 +101,7 @@ int	ft_atoi_base(char *str, char *base)
 int	length_num(int nbr, char *base, int length)
 {
 	long	nb;
-	int		baselength;
+	long	baselength;
 
 	baselength = ft_strlen(base);
 	nb = nbr;
@@ -112,11 +112,13 @@ int	length_num(int nbr, char *base, int length)
 	}
 	if (nb == 0)
 		return (length + 1);
-	while ((nb / baselength) > 0)
+	while (nb >= baselength)
 	{
 		nb /= baselength;
 		length++;
 	}
+	if (nb < baselength)
+		length++;
 	return (length);
 }
 
@@ -169,7 +171,7 @@ int main(void)
 	char *result;
 
 	// Test 1: Convert "101" from base 2 to base 10
-	result = ft_convert_base("101", "01", "0123456789");
+	result = ft_convert_base("A", "0123456789ABCDEF", "0123456789");
 	printf("Test 1: %s\n", result);
 
 	// Test 2: Convert "A3" from base 16 to base 10
