@@ -74,12 +74,12 @@ int	signs_spaces(char *str, int *idx)
 }
 
 // Function to convert a string to an integer based on a given base
-int	ft_atoi_base(char *str, char *base)
+long	ft_atoi_base(char *str, char *base)
 {
-	int	i;
-	int	base_num;
-	int	res;
-	int	sign;
+	int		i;
+	int		base_num;
+	long	res;
+	int		sign;
 
 	i = 0;
 	res = 0;
@@ -98,13 +98,11 @@ int	ft_atoi_base(char *str, char *base)
 }
 
 // Function to calculate the length of the number in the target base
-int	length_num(int nbr, char *base, int length)
+int	length_num(long nb, char *base, int length)
 {
-	long	nb;
 	long	baselength;
 
 	baselength = ft_strlen(base);
-	nb = nbr;
 	if (nb < 0)
 	{
 		nb = -nb;
@@ -129,7 +127,7 @@ char	*Buff_fill(int num, char *base, int buff_len)
 	long	nb;
 	char	*res;
 
-	i = (num < 0) ? 1 : 0;
+	i = 0;
 	base_len = ft_strlen(base);
 	nb = num;
 	res = malloc(sizeof(char) * (buff_len + 1));
@@ -138,14 +136,13 @@ char	*Buff_fill(int num, char *base, int buff_len)
 	res[buff_len--] = '\0';
 	if (nb < 0)
 	{
-		res[0] = '-';
+		res[i++] = '-';
 		nb = -nb;
 	}
 	while (nb >= base_len)
 	{
-		res[buff_len] = base[nb % base_len];
+		res[buff_len--] = base[nb % base_len];
 		nb /= base_len;
-		buff_len--;
 	}
 	if (nb < base_len)
 			res[i] = base[nb];
@@ -154,7 +151,7 @@ char	*Buff_fill(int num, char *base, int buff_len)
 
 char *ft_convert_base(char *nbr, char *base_from, char *base_to)
 {
-	int		num;
+	long		num;
 	char	*res;
 	int		bufflen;
 
@@ -171,13 +168,12 @@ int main(void)
 	char *result;
 
 	// Test 1: Convert "101" from base 2 to base 10
-	result = ft_convert_base("A", "0123456789ABCDEF", "0123456789");
+	result = ft_convert_base("-2147483648", "0123456789", "01");
 	printf("Test 1: %s\n", result);
 
 	// Test 2: Convert "A3" from base 16 to base 10
 	result = ft_convert_base("A3", "0123456789ABCDEF", "0123456789");
 	printf("Test 2: %s\n", result);
-
 	// ... Add more test cases
 
 	return 0;

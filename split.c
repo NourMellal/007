@@ -17,6 +17,18 @@ int ft_is_sperator(char c, char *charset)
 	return (0);
 }
 
+void write_in_grid(char *dest, char *src, char *charset)
+{
+	int i;
+
+	i = 0;
+	while (ft_is_sperator(src[i], charset) == 0)  /* Hello, World! == " ,!" */
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+}
 int grid_define(char **grid, char *str, char *charset) /* Hello, World! == " ,!" */
 {
 	int i;
@@ -45,18 +57,6 @@ int grid_define(char **grid, char *str, char *charset) /* Hello, World! == " ,!"
 	return (0);
 }
 
-void write_in_grid(char *dest, char *src, char *charset)
-{
-	int i;
-
-	i = 0;
-	while (ft_is_sperator(src[i], charset) == 0)  /* Hello, World! == " ,!" */
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-}
 
 int ft_count_words(char *str, char *charset)
 {
@@ -80,30 +80,18 @@ char **ft_split(char *str, char *charset)
 {
 	char **grid;
 	int words;
-	int i;
 
 	words = ft_count_words(str, charset);
 	grid = malloc(sizeof(char *) * (words + 1));
 	if (!grid)
 		return (NULL);
-	grid[words] = 0;
-	if (grid_define(grid, str, charset) != 0)
-	{
-		i = 0;
-		while (i < words)
-		{
-			if (grid[i])
-				free(grid[i]);
-			i++;
-		}
-		free(grid);
-		return (NULL);
-	}
+	grid[words] = NULL;
+	grid_define(grid, str, charset);
 	return (grid);
 }
 
 
-/*
+
 // Assuming ft_split is defined somewhere
 char **ft_split(char *str, char *charset);
 
@@ -116,16 +104,20 @@ int main() {
     printf("Test 1:\n");
     for (int i = 0; result[i] != 0; i++) {
         printf("%s\n", result[i]);
+		free(result[i]);
     }
+	free(result);
     printf("\n");
 
     // Test 2: Splitting by comma and space
-    result = ft_split("apple, orange, banana", ", ");
+    result = ft_split("        ,,,,    apple, orange, banana        ,,,,,,", ", ");
     // Expected output: "apple", "orange", "banana"
     printf("Test 2:\n");
     for (int i = 0; result[i] != 0; i++) {
         printf("%s\n", result[i]);
+		free(result[i]);
     }
+	free(result);
     printf("\n");
 
     // Test 3: Splitting by a character not in the string
@@ -134,16 +126,20 @@ int main() {
     printf("Test 3:\n");
     for (int i = 0; result[i] != 0; i++) {
         printf("%s\n", result[i]);
+		free(result[i]);
     }
+	free(result);
     printf("\n");
 
     // Test 4: Splitting by multiple characters
-    result = ft_split("a:	:c::d::e", ":");
+    result = ft_split("a::c::d::e", ":");
     // Expected output: "a", "b", "c", "d", "e"
     printf("Test 4:\n");
     for (int i = 0; result[i] != 0; i++) {
         printf("%s\n", result[i]);
+		free(result[i]);
     }
+	free(result);
     printf("\n");
 
     // Test 5: Splitting an empty string
@@ -152,9 +148,10 @@ int main() {
     printf("Test 5:\n");
     for (int i = 0; result[i] != 0; i++) {
         printf("%s\n", result[i]);
+		free(result[i]);
     }
+	free(result);
     printf("\n");
 
     return 0;
 }
-*/
