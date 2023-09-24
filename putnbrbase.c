@@ -162,3 +162,20 @@ char *ft_convert_base(char *nbr, char *base_from, char *base_to)
 	res = Buff_fill(num, res, base_to, bufflen);
 	return (res);
 }
+
+int main(int argc, char const *argv[])
+{
+	char *result;
+
+	// Test 1: Convert "101" from base 2 to base 10
+	result = ft_convert_base("101", "01", "0123456789");
+	printf("Test 1: %s\n", result);
+
+	// Test 2: Convert "A3" from base 16 to base 10
+	result = ft_convert_base("A3", "0123456789ABCDEF", "0123456789");
+	printf("Test 2: %s\n", result);
+
+	// ... Add more test cases
+
+	return 0;
+}
