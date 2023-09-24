@@ -1,14 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int ft_is_sperator(char c, char *charset)
+
+int	is_sperator(char c, char *sep)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while (charset[i])
+	while (sep[i])
 	{
-		if (c == charset[i])
+		if (sep[i] == c)
 			return (1);
 		i++;
 	}
@@ -17,71 +18,68 @@ int ft_is_sperator(char c, char *charset)
 	return (0);
 }
 
-void write_in_grid(char *dest, char *src, char *charset)
+int	words_count(char *str, char *sep)
 {
-	int i;
+	int	i;
+	int	words;
 
 	i = 0;
-	while (ft_is_sperator(src[i], charset) == 0)  /* Hello, World! == " ,!" */
+	words = 0;
+	while (str[i])
+	{
+		if (!is_sperator(str[i], sep) && is_sperator(str[i + 1], sep))
+			words++;
+		i++;
+	}
+	return (words);
+}
+
+void	write_in_grid(char *dest, char *src, char *sep)
+{
+	int	i;
+
+	i = 0;
+	while (!is_sperator(src[i], sep))
 	{
 		dest[i] = src[i];
 		i++;
 	}
 	dest[i] = '\0';
 }
-int grid_define(char **grid, char *str, char *charset) /* Hello, World! == " ,!" */
-{
-	int i;
-	int j;
-	int word;
 
-	word = 0;
+void	grid_define(char **grid, char *str, char *sep)
+{
+	int	i;
+	int	j;
+	int	word;
+
 	i = 0;
+	word = 0;
 	while (str[i])
 	{
-		if (ft_is_sperator(str[i], charset) == 1)
+		if (is_sperator(str[i], sep))
 			i++;
-		else /* Hello, World! == " ,!" */
+		else
 		{
 			j = 0;
-			while (ft_is_sperator(str[i + j], charset) == 0)
+			while (!is_sperator(str[i + j], sep))
 				j++;
 			grid[word] = malloc(sizeof(char) * (j + 1));
 			if (!grid[word])
-				return (-1);
-			write_in_grid(grid[word], str + i, charset);
+				return ;
+			write_in_grid(grid[word], str + i, sep);
 			i += j;
 			word++;
 		}
 	}
-	return (0);
-}
-
-
-int ft_count_words(char *str, char *charset)
-{
-	int i;
-	int words;
-
-	i = 0;
-	words = 0;
-
-	while (str[i])
-	{
-		if (ft_is_sperator(str[i + 1], charset) == 1 /* Hello, World == " ,"*/
-			&& ft_is_sperator(str[i], charset) == 0)
-				words++;
-		i++;
-	}
-	return (words);
-}
+} /* Hello, World  ", "*/
 
 char **ft_split(char *str, char *charset)
 {
-	char **grid;
-	int words;
+	int		words;
+	char	**grid;
 
-	words = ft_count_words(str, charset);
+	words = words_count(str, charset);
 	grid = malloc(sizeof(char *) * (words + 1));
 	if (!grid)
 		return (NULL);
@@ -89,11 +87,6 @@ char **ft_split(char *str, char *charset)
 	grid_define(grid, str, charset);
 	return (grid);
 }
-
-
-
-// Assuming ft_split is defined somewhere
-char **ft_split(char *str, char *charset);
 
 int main() {
     char **result;
